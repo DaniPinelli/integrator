@@ -1,37 +1,63 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Task } from '../../models/task.class';
+import '../../styles/task.scss';
+import { LEVELS } from './../../models/levels.enum';
 
 
 const TaskComponent = ({ task }) => {
 
     useEffect(() => {
-        console.log('Tareas creada')
-
-
+        console.log('Task created')
         return () =>
             console.log(`${task.name} Desmontado`)
 
     }, [task])
 
+    const taskCompletedIcon = () => {
+        if (task.completed) {
+            return (<i className='bi-toggle-on' style={{ color: 'green' }} ></i>)
+        } else {
+            return (<i className='bi-toggle-off' style={{ color: 'red' }}></i>)
+        }
+    }
+
+    {/* Returns a Badge */ }
+    function taskLevelBadge() {
+        switch (task.level) {
+            case LEVELS.BLOCKING:
+                return (<p className='mb-0' ><span className='badge bg-danger' > {task.level} </span></p>)
+            case LEVELS.URGENT:
+                return (<p className='mb-0' ><span className='badge bg-warning' > {task.level} </span></p>)
+            case LEVELS.NORMAL:
+                return (<p className='mb-0' ><span className='badge bg-success' > {task.level} </span></p>)
+            default:
+                break;
+        }
+    }
+
 
     return (
-        <div>
-            <p>
-                Name{task.name}
-            </p>
-            <p>
-                Description {task.description}
-            </p>
-            <p>
-                Level {task.level}
-            </p>
-            <p>
-                Task State: {task.completed ? 'COMPLETED' : 'PENDING'}
-            </p>
-        </div>
+
+        <tr className='fw-normal' >
+            <th>
+                <span className="ms-2" >{task.name}</span>
+            </th>
+            <td className='align-middle' >
+                {/* Description */}
+                <span className="ms-2" >{task.description}</span>
+            </td>
+            <td className='align-middle' >
+                {/* Level */}
+                {taskLevelBadge()}
+            </td>
+            <td className='align-middle' >
+                {/* Completed */}
+                {taskCompletedIcon()}
+            </td>
+        </tr>
     );
-};
+}
 
 
 TaskComponent.propTypes = {
