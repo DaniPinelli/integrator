@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { LEVELS } from '../../models/levels.enum';
 import { Task } from '../../models/task.class';
 import TaskComponent from '../pure/task';
-import taskForm from './../pure/forms/taskForm';
+import TaskForm from './../pure/forms/taskForm';
 
 const TaskListComponent = () => {
 
@@ -22,15 +22,37 @@ const TaskListComponent = () => {
 
     }, [tasks])
 
-    const changeCompleted = (id) => {
-        console.log('Todo: Cambiar')
+    const completeTask = (task) => {
+        const index = tasks.indexOf(task)
+        const tempTasks = [...tasks]
+        tempTasks[index].completed = !tempTasks[index].completed
+        //Update the state
+        setTasks(tempTasks)
     }
 
+
+    function deleteTask(task) {
+        const index = tasks.indexOf(task)
+        const tempTasks = [...tasks]
+        tempTasks.splice(index, 1)
+        //Update the state
+        setTasks(tempTasks)
+    }
+
+    const addTask = (task) => {
+        const index = tasks.indexOf(task)
+        const tempTasks = [...tasks]
+        tempTasks.push(task)
+        //Update the state
+        setTasks(tempTasks)
+    }
+
+
     return (
-        <div className='card' >
+        <div className='card bg-dark' >
             {/* Cart Header */}
             <div className='col-12' >
-                <div className='card' >
+                <div className='card bg-dark' >
                     <div className='card-header p-3'>
                         <h1>Task List</h1>
                     </div>
@@ -50,17 +72,17 @@ const TaskListComponent = () => {
                             {/* Task */}
 
                             {tasks.map((task, index) => (
-                                <TaskComponent key={index} task={task} />
+                                <TaskComponent key={index} task={task} complete={completeTask} remove={deleteTask} />
                             )
-
                             )}
+
                         </tbody>
                     </table>
                 </div>
 
-                <taskForm />
-            </div>
 
+            </div>
+            <TaskForm add={addTask} />
         </div>
     )
 }

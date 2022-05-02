@@ -8,8 +8,6 @@ function App() {
 
     <div className="App">
 
-      <img src={logo} className="App-logo" alt="logo" />
-
       <TaskListComponent />
     </div>
 
