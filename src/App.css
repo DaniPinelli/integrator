@@ -47,3 +47,7 @@ body{
   padding-top: 2rem;
   padding-bottom: 1.5rem;
 }
+
+.pb-0{
+  padding-bottom: 0;
+}
